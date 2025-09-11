@@ -1,0 +1,62 @@
+{
+  "name": "ts-formacion",
+  "version": "1.0.0",
+  "description": "Formación básica de TypeScript para desarrolladores",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
+    "lint": "echo 'Linting TypeScript files...'",
+    "test": "echo 'No tests specified'",
+    "ejemplo:01": "ts-node --transpile-only 01-introduccion/ejemplos/01-hello-world.ts",
+    "ejemplo:02": "ts-node --transpile-only 01-introduccion/ejemplos/02-configuracion.ts",
+    "ejemplo:03": "ts-node --transpile-only 02-tipos-basicos/ejemplos/01-tipos-primitivos.ts",
+    "ejemplo:04": "ts-node --transpile-only 02-tipos-basicos/ejemplos/02-type-guards.ts",
+    "ejemplo:05": "ts-node --transpile-only 03-interfaces/ejemplos/01-interfaces-basicas.ts",
+    "ejemplo:06": "ts-node --transpile-only 03-interfaces/ejemplos/02-herencia-interfaces.ts",
+    "ejemplo:07": "ts-node --transpile-only 03-interfaces/ejemplos/03-interfaces-vs-types.ts",
+    "ejemplo:08": "ts-node --transpile-only 04-funciones/ejemplos/01-funciones-basicas.ts",
+    "ejemplo:09": "ts-node --transpile-only 04-funciones/ejemplos/02-sobrecarga-funciones.ts",
+    "ejemplo:10": "ts-node --transpile-only 04-funciones/ejemplos/03-funciones-avanzadas.ts",
+    "ejemplo:11": "ts-node --transpile-only 05-clases/ejemplos/01-clases-basicas.ts",
+    "ejemplo:12": "ts-node --transpile-only 05-clases/ejemplos/02-herencia-clases.ts",
+    "ejemplo:13": "ts-node --transpile-only 05-clases/ejemplos/03-clases-genericas.ts",
+    "ejemplo:14": "ts-node --transpile-only 06-genericos/ejemplos/01-genericos-basicos.ts",
+    "ejemplo:15": "ts-node --transpile-only 06-genericos/ejemplos/02-interfaces-genericas.ts",
+    "ejemplo:16": "ts-node --transpile-only 06-genericos/ejemplos/03-clases-genericas.ts",
+    "ejemplo:17": "ts-node --transpile-only 07-modulos/ejemplos/01-exportaciones.ts",
+    "ejemplo:18": "ts-node --transpile-only 07-modulos/ejemplos/02-importaciones.ts",
+    "ejemplo:19": "ts-node --transpile-only 07-modulos/ejemplos/03-re-exportaciones.ts",
+    "ejercicio:01": "ts-node --transpile-only 01-introduccion/soluciones/ejercicio-1.ts",
+    "ejercicio:02": "ts-node --transpile-only 01-introduccion/soluciones/ejercicio-2.ts",
+    "ejercicio:03": "ts-node --transpile-only 01-introduccion/soluciones/ejercicio-3.ts",
+    "ejercicio:04": "ts-node --transpile-only 02-tipos-basicos/soluciones/ejercicio-1.ts",
+    "ejercicio:05": "ts-node --transpile-only 02-tipos-basicos/soluciones/ejercicio-2.ts",
+    "ejercicio:06": "ts-node --transpile-only 03-interfaces/soluciones/ejercicio-1.ts",
+    "ejercicio:07": "ts-node --transpile-only 04-funciones/soluciones/ejercicio-1.ts",
+    "ejercicio:08": "ts-node --transpile-only 05-clases/soluciones/ejercicio-1.ts",
+    "ejercicio:09": "ts-node --transpile-only 06-genericos/soluciones/ejercicio-1.ts",
+    "ejercicio:10": "ts-node --transpile-only 07-modulos/soluciones/ejercicio-1.ts"
+  },
+  "keywords": [
+    "typescript",
+    "formacion",
+    "tutorial",
+    "ejemplos",
+    "ejercicios"
+  ],
+  "author": "Equipo de Desarrollo",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

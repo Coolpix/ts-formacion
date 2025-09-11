@@ -1,0 +1,70 @@
+{
+  "compilerOptions": {
+    // Configuración básica
+    "target": "ESnext",                    // Versión de JavaScript objetivo
+    "module": "nodenext",                    // Sistema de módulos
+    "lib": ["ES2020", "DOM"],              // Librerías incluidas
+    "outDir": "./dist",                    // Directorio de salida
+    "rootDir": "./",                       // Directorio raíz
+    "strict": false,                       // Relajar verificaciones estrictas para formación
+    "esModuleInterop": true,               // Compatibilidad con módulos ES
+    "skipLibCheck": true,                  // Omitir verificación de archivos .d.ts
+    "forceConsistentCasingInFileNames": true, // Forzar consistencia en nombres de archivos
+    
+    // Configuraciones adicionales útiles para formación
+    "noImplicitAny": false,                // Permitir tipos implícitos 'any' para formación
+    "noImplicitReturns": false,            // Permitir funciones sin retorno explícito
+    "noImplicitThis": false,               // Permitir 'this' implícito
+    "noUnusedLocals": false,               // No error por variables locales no usadas
+    "noUnusedParameters": false,           // No error por parámetros no usados
+    "exactOptionalPropertyTypes": false,   // Tipos opcionales flexibles
+    
+    // Configuraciones para desarrollo
+    "sourceMap": true,                     // Generar archivos .map para debugging
+    "declaration": true,                   // Generar archivos .d.ts
+    "removeComments": false,               // Mantener comentarios en el output
+    
+    // Configuraciones de resolución de módulos
+    "moduleResolution": "nodenext",         // Estrategia de resolución de módulos
+    "baseUrl": "./",                       // Base para resolución de módulos
+    "paths": {                             // Mapeo de rutas
+      "@/*": ["./*"]
+    },
+    
+    // Configuraciones experimentales
+    "experimentalDecorators": true,        // Habilitar decoradores experimentales
+    "emitDecoratorMetadata": true,         // Emitir metadatos de decoradores
+    
+    // Configuraciones de salida
+    "newLine": "lf",                       // Tipo de salto de línea
+    "preserveConstEnums": true,            // Preservar enums const
+    "isolatedModules": true,               // Tratar cada archivo como módulo independiente
+    
+    // Configuraciones para evitar conflictos de scope global
+    "moduleDetection": "force",            // Forzar detección de módulos
+    "allowImportingTsExtensions": false,   // No permitir importar .ts directamente
+    "noEmit": false                        // Permitir emisión de archivos
+  },
+  
+  // Archivos y directorios a incluir
+  "include": [
+    "**/*.ts",                            // Todos los archivos .ts
+    "**/*.tsx"                            // Todos los archivos .tsx (si los hay)
+  ],
+  
+  // Archivos y directorios a excluir
+  "exclude": [
+    "node_modules",                       // Excluir node_modules
+    "dist",                               // Excluir directorio de salida
+    "**/*.js",                            // Excluir archivos JavaScript compilados
+    "**/*.d.ts"                           // Excluir archivos de declaración
+  ],
+  
+  // Configuraciones específicas para archivos
+  "ts-node": {
+    "esm": false,                         // Deshabilitar ESM para ts-node
+    "experimentalSpecifierResolution": "node",
+    "transpileOnly": true,                // Solo transpilar, no verificar tipos
+    "files": true                         // Incluir archivos de configuración
+  }
+}
