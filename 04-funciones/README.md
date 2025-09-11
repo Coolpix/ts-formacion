@@ -2,7 +2,16 @@
 
 ## Introducción
 
-Las funciones son el corazón de la programación en TypeScript. En este tema aprenderemos a crear funciones tipadas, manejar parámetros opcionales, valores por defecto, sobrecarga de funciones y mucho más. TypeScript nos proporciona herramientas poderosas para hacer nuestras funciones más seguras y expresivas.
+Las funciones son el corazón de la programación en TypeScript y representan la unidad fundamental de reutilización de código. TypeScript proporciona un sistema de tipos robusto para funciones que nos permite:
+
+- **Definir contratos claros** para parámetros y valores de retorno
+- **Crear funciones más seguras** con verificación de tipos en tiempo de compilación
+- **Implementar patrones avanzados** como sobrecarga y funciones de orden superior
+- **Manejar casos complejos** con parámetros opcionales, rest y valores por defecto
+- **Facilitar el mantenimiento** con documentación automática a través de tipos
+- **Habilitar la reutilización** con funciones genéricas y polimórficas
+
+En este tema exploraremos desde conceptos básicos hasta patrones avanzados de funciones, proporcionando las herramientas necesarias para escribir código TypeScript robusto y mantenible.
 
 ## Funciones Básicas con Tipos
 
@@ -363,21 +372,529 @@ function crearPromesa<T>(valor: T, delay: number = 1000): Promise<T> {
 }
 ```
 
+## Patrones Avanzados de Funciones
+
+### 1. Currying y Aplicación Parcial
+```typescript
+// Currying: función que devuelve otra función
+function sumar(a: number): (b: number) => number {
+    return (b: number) => a + b;
+}
+
+const sumar5 = sumar(5);
+console.log(sumar5(3)); // 8
+
+// Aplicación parcial con múltiples parámetros
+function crearSaludo(saludo: string, puntuacion: string) {
+    return (nombre: string) => `${saludo}${nombre}${puntuacion}`;
+}
+
+const saludarFormal = crearSaludo("Estimado/a ", ".");
+const saludarInformal = crearSaludo("¡Hola ", "!");
+
+console.log(saludarFormal("Juan")); // "Estimado/a Juan."
+console.log(saludarInformal("María")); // "¡Hola María!"
+```
+
+### 2. Memoización
+```typescript
+function memoizar<T extends (...args: any[]) => any>(
+    funcion: T
+): T {
+    const cache = new Map();
+    
+    return ((...args: Parameters<T>) => {
+        const clave = JSON.stringify(args);
+        
+        if (cache.has(clave)) {
+            return cache.get(clave);
+        }
+        
+        const resultado = funcion(...args);
+        cache.set(clave, resultado);
+        return resultado;
+    }) as T;
+}
+
+// Función costosa para memoizar
+function fibonacci(n: number): number {
+    if (n <= 1) return n;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+const fibonacciMemoizado = memoizar(fibonacci);
+console.log(fibonacciMemoizado(40)); // Mucho más rápido
+```
+
+### 3. Pipe y Compose
+```typescript
+// Función pipe para encadenar transformaciones
+function pipe<T>(...funciones: Array<(arg: T) => T>): (arg: T) => T {
+    return (arg: T) => funciones.reduce((resultado, fn) => fn(resultado), arg);
+}
+
+// Función compose (aplicación de derecha a izquierda)
+function compose<T>(...funciones: Array<(arg: T) => T>): (arg: T) => T {
+    return (arg: T) => funciones.reduceRight((resultado, fn) => fn(resultado), arg);
+}
+
+// Ejemplo de uso
+const transformarTexto = pipe(
+    (texto: string) => texto.trim(),
+    (texto: string) => texto.toLowerCase(),
+    (texto: string) => texto.replace(/\s+/g, '-'),
+    (texto: string) => `slug: ${texto}`
+);
+
+console.log(transformarTexto("  Hola Mundo TypeScript  ")); 
+// "slug: hola-mundo-typescript"
+```
+
+### 4. Funciones de Validación
+```typescript
+type Validator<T> = (valor: T) => boolean;
+type ValidatorResult<T> = {
+    valido: boolean;
+    error?: string;
+    valor: T;
+};
+
+function crearValidator<T>(
+    validadores: Array<{ validar: Validator<T>; mensaje: string }>
+): (valor: T) => ValidatorResult<T> {
+    return (valor: T) => {
+        for (const { validar, mensaje } of validadores) {
+            if (!validar(valor)) {
+                return { valido: false, error: mensaje, valor };
+            }
+        }
+        return { valido: true, valor };
+    };
+}
+
+// Validadores para email
+const validarEmail = crearValidator([
+    {
+        validar: (email: string) => email.includes('@'),
+        mensaje: 'Email debe contener @'
+    },
+    {
+        validar: (email: string) => email.length > 5,
+        mensaje: 'Email debe tener al menos 5 caracteres'
+    },
+    {
+        validar: (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
+        mensaje: 'Formato de email inválido'
+    }
+]);
+
+const resultado = validarEmail("usuario@ejemplo.com");
+console.log(resultado); // { valido: true, valor: "usuario@ejemplo.com" }
+```
+
+## Funciones de Utilidad Comunes
+
+### 1. Debounce y Throttle
+```typescript
+// Debounce: ejecuta la función después de que pase un tiempo sin llamadas
+function debounce<T extends (...args: any[]) => any>(
+    funcion: T,
+    delay: number
+): (...args: Parameters<T>) => void {
+    let timeoutId: NodeJS.Timeout;
+    
+    return (...args: Parameters<T>) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => funcion(...args), delay);
+    };
+}
+
+// Throttle: ejecuta la función como máximo una vez por intervalo
+function throttle<T extends (...args: any[]) => any>(
+    funcion: T,
+    delay: number
+): (...args: Parameters<T>) => void {
+    let lastCall = 0;
+    
+    return (...args: Parameters<T>) => {
+        const now = Date.now();
+        if (now - lastCall >= delay) {
+            lastCall = now;
+            funcion(...args);
+        }
+    };
+}
+
+// Ejemplo de uso
+const busquedaDebounced = debounce((termino: string) => {
+    console.log(`Buscando: ${termino}`);
+}, 300);
+
+const scrollThrottled = throttle(() => {
+    console.log('Scroll detectado');
+}, 100);
+```
+
+### 2. Retry y Timeout
+```typescript
+// Función con reintentos
+async function conReintentos<T>(
+    funcion: () => Promise<T>,
+    maxReintentos: number = 3,
+    delay: number = 1000
+): Promise<T> {
+    let ultimoError: Error;
+    
+    for (let intento = 1; intento <= maxReintentos; intento++) {
+        try {
+            return await funcion();
+        } catch (error) {
+            ultimoError = error as Error;
+            console.log(`Intento ${intento} falló:`, error);
+            
+            if (intento < maxReintentos) {
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+        }
+    }
+    
+    throw ultimoError!;
+}
+
+// Función con timeout
+function conTimeout<T>(
+    promesa: Promise<T>,
+    timeoutMs: number
+): Promise<T> {
+    return Promise.race([
+        promesa,
+        new Promise<never>((_, reject) => {
+            setTimeout(() => reject(new Error('Timeout')), timeoutMs);
+        })
+    ]);
+}
+
+// Ejemplo de uso
+const datosConReintentos = await conReintentos(
+    () => fetch('/api/datos').then(r => r.json()),
+    3,
+    2000
+);
+
+const datosConTimeout = await conTimeout(
+    fetch('/api/datos').then(r => r.json()),
+    5000
+);
+```
+
 ## Mejores Prácticas
 
-1. **Usa tipos explícitos** para parámetros y valores de retorno cuando no sean obvios
-2. **Aprovecha la inferencia** de tipos cuando sea clara
-3. **Usa parámetros opcionales** en lugar de `undefined` explícito
-4. **Aplica sobrecarga** para funciones que manejan múltiples tipos
-5. **Usa genéricos** para funciones reutilizables
-6. **Documenta funciones complejas** con comentarios JSDoc
-7. **Maneja errores** apropiadamente en funciones asíncronas
+### 1. Nomenclatura y Documentación
+```typescript
+/**
+ * Calcula el área de un rectángulo
+ * @param ancho - Ancho del rectángulo en metros
+ * @param alto - Alto del rectángulo en metros
+ * @returns Área en metros cuadrados
+ * @throws {Error} Si alguno de los parámetros es negativo
+ */
+function calcularAreaRectangulo(ancho: number, alto: number): number {
+    if (ancho < 0 || alto < 0) {
+        throw new Error('Las dimensiones no pueden ser negativas');
+    }
+    return ancho * alto;
+}
+
+// ✅ Bueno: Nombres descriptivos
+function procesarDatosUsuario(datos: Usuario): UsuarioProcesado {
+    // ...
+}
+
+// ❌ Malo: Nombres vagos
+function procesar(d: any): any {
+    // ...
+}
+```
+
+### 2. Manejo de Errores
+```typescript
+// ✅ Bueno: Manejo explícito de errores
+async function obtenerUsuario(id: string): Promise<Usuario | null> {
+    try {
+        const respuesta = await fetch(`/api/usuarios/${id}`);
+        if (!respuesta.ok) {
+            throw new Error(`Error HTTP: ${respuesta.status}`);
+        }
+        return await respuesta.json();
+    } catch (error) {
+        console.error('Error obteniendo usuario:', error);
+        return null;
+    }
+}
+
+// ✅ Bueno: Resultado con información de error
+type Resultado<T, E = Error> = 
+    | { exito: true; datos: T }
+    | { exito: false; error: E };
+
+async function obtenerUsuarioSeguro(id: string): Promise<Resultado<Usuario>> {
+    try {
+        const usuario = await obtenerUsuario(id);
+        if (!usuario) {
+            return { exito: false, error: new Error('Usuario no encontrado') };
+        }
+        return { exito: true, datos: usuario };
+    } catch (error) {
+        return { exito: false, error: error as Error };
+    }
+}
+```
+
+### 3. Uso de Parámetros Opcionales
+```typescript
+// ✅ Bueno: Parámetros opcionales al final
+function crearUsuario(
+    nombre: string, 
+    email: string, 
+    telefono?: string,
+    direccion?: string
+): Usuario {
+    return {
+        nombre,
+        email,
+        telefono: telefono ?? '',
+        direccion: direccion ?? ''
+    };
+}
+
+// ✅ Bueno: Objeto de configuración para muchos parámetros opcionales
+interface ConfiguracionServidor {
+    host: string;
+    puerto: number;
+    ssl?: boolean;
+    timeout?: number;
+    retries?: number;
+    headers?: Record<string, string>;
+}
+
+function crearServidor(config: ConfiguracionServidor): Servidor {
+    return new Servidor({
+        host: config.host,
+        puerto: config.puerto,
+        ssl: config.ssl ?? false,
+        timeout: config.timeout ?? 5000,
+        retries: config.retries ?? 3,
+        headers: config.headers ?? {}
+    });
+}
+```
+
+### 4. Funciones Puras
+```typescript
+// ✅ Bueno: Función pura (sin efectos secundarios)
+function calcularDescuento(precio: number, porcentaje: number): number {
+    return precio * (porcentaje / 100);
+}
+
+// ✅ Bueno: Función pura con validación
+function formatearFecha(fecha: Date, formato: 'corto' | 'largo' = 'corto'): string {
+    const opciones: Intl.DateTimeFormatOptions = formato === 'corto' 
+        ? { year: 'numeric', month: '2-digit', day: '2-digit' }
+        : { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+    
+    return fecha.toLocaleDateString('es-ES', opciones);
+}
+
+// ❌ Malo: Función con efectos secundarios
+let contador = 0;
+function incrementarContador(): number {
+    contador++; // Efecto secundario
+    return contador;
+}
+```
+
+## Casos de Uso Comunes
+
+### 1. Procesamiento de Datos
+```typescript
+interface DatosUsuario {
+    id: number;
+    nombre: string;
+    email: string;
+    activo: boolean;
+    fechaRegistro: Date;
+}
+
+// Pipeline de procesamiento
+const procesarUsuarios = pipe(
+    (usuarios: DatosUsuario[]) => usuarios.filter(u => u.activo),
+    (usuarios: DatosUsuario[]) => usuarios.map(u => ({
+        ...u,
+        nombre: u.nombre.toUpperCase(),
+        diasRegistrado: Math.floor((Date.now() - u.fechaRegistro.getTime()) / (1000 * 60 * 60 * 24))
+    })),
+    (usuarios: any[]) => usuarios.sort((a, b) => b.diasRegistrado - a.diasRegistrado)
+);
+
+const usuariosProcesados = procesarUsuarios(usuariosOriginales);
+```
+
+### 2. Validación de Formularios
+```typescript
+type ReglaValidacion<T> = {
+    campo: keyof T;
+    validar: (valor: any) => boolean;
+    mensaje: string;
+};
+
+function crearValidador<T>(reglas: ReglaValidacion<T>[]) {
+    return (datos: T): { valido: boolean; errores: Record<string, string> } => {
+        const errores: Record<string, string> = {};
+        
+        for (const regla of reglas) {
+            const valor = datos[regla.campo];
+            if (!regla.validar(valor)) {
+                errores[regla.campo as string] = regla.mensaje;
+            }
+        }
+        
+        return {
+            valido: Object.keys(errores).length === 0,
+            errores
+        };
+    };
+}
+
+const validarFormularioUsuario = crearValidador<Usuario>([
+    {
+        campo: 'nombre',
+        validar: (valor) => typeof valor === 'string' && valor.length >= 2,
+        mensaje: 'El nombre debe tener al menos 2 caracteres'
+    },
+    {
+        campo: 'email',
+        validar: (valor) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor),
+        mensaje: 'Formato de email inválido'
+    }
+]);
+```
+
+### 3. Manejo de Eventos
+```typescript
+type ManejadorEvento<T> = (evento: T) => void;
+
+class EventEmitter<T extends Record<string, any>> {
+    private eventos: Map<keyof T, ManejadorEvento<T[keyof T]>[]> = new Map();
+    
+    on<K extends keyof T>(evento: K, manejador: ManejadorEvento<T[K]>): void {
+        if (!this.eventos.has(evento)) {
+            this.eventos.set(evento, []);
+        }
+        this.eventos.get(evento)!.push(manejador as ManejadorEvento<T[keyof T]>);
+    }
+    
+    emit<K extends keyof T>(evento: K, datos: T[K]): void {
+        const manejadores = this.eventos.get(evento);
+        if (manejadores) {
+            manejadores.forEach(manejador => manejador(datos));
+        }
+    }
+    
+    off<K extends keyof T>(evento: K, manejador: ManejadorEvento<T[K]>): void {
+        const manejadores = this.eventos.get(evento);
+        if (manejadores) {
+            const index = manejadores.indexOf(manejador as ManejadorEvento<T[keyof T]>);
+            if (index > -1) {
+                manejadores.splice(index, 1);
+            }
+        }
+    }
+}
+
+// Uso tipado
+interface EventosApp {
+    'usuario:login': { usuario: Usuario; timestamp: Date };
+    'usuario:logout': { usuarioId: string };
+    'error:ocurrido': { error: Error; contexto: string };
+}
+
+const emisor = new EventEmitter<EventosApp>();
+
+emisor.on('usuario:login', (datos) => {
+    console.log(`Usuario ${datos.usuario.nombre} inició sesión`);
+});
+```
+
+## Errores Comunes y Cómo Evitarlos
+
+### 1. No Especificar Tipos de Retorno
+```typescript
+// ❌ Malo: Tipo de retorno no especificado
+function procesarDatos(datos: any) {
+    if (typeof datos === 'string') {
+        return datos.toUpperCase();
+    }
+    return datos * 2;
+}
+
+// ✅ Bueno: Tipo de retorno explícito
+function procesarDatos(datos: string | number): string | number {
+    if (typeof datos === 'string') {
+        return datos.toUpperCase();
+    }
+    return datos * 2;
+}
+```
+
+### 2. Uso Incorrecto de `any`
+```typescript
+// ❌ Malo: Usar any para evitar errores de tipo
+function procesarCualquierCosa(datos: any): any {
+    return datos.propiedad.metodo();
+}
+
+// ✅ Bueno: Tipos específicos o genéricos
+function procesarDatos<T extends { propiedad: { metodo(): string } }>(datos: T): string {
+    return datos.propiedad.metodo();
+}
+```
+
+### 3. No Manejar Casos de Error
+```typescript
+// ❌ Malo: No manejar errores
+async function obtenerDatos(url: string): Promise<any> {
+    const respuesta = await fetch(url);
+    return await respuesta.json();
+}
+
+// ✅ Bueno: Manejo explícito de errores
+async function obtenerDatos(url: string): Promise<{ exito: true; datos: any } | { exito: false; error: string }> {
+    try {
+        const respuesta = await fetch(url);
+        if (!respuesta.ok) {
+            return { exito: false, error: `HTTP ${respuesta.status}` };
+        }
+        const datos = await respuesta.json();
+        return { exito: true, datos };
+    } catch (error) {
+        return { exito: false, error: error instanceof Error ? error.message : 'Error desconocido' };
+    }
+}
+```
 
 ## Próximos Pasos
 
-En el siguiente tema aprenderemos sobre clases y herencia en TypeScript, incluyendo modificadores de acceso, propiedades estáticas y herencia de clases.
+En el siguiente tema aprenderemos sobre clases y herencia en TypeScript, incluyendo:
+
+- Definición de clases con tipos
+- Modificadores de acceso (public, private, protected)
+- Propiedades estáticas y métodos de clase
+- Herencia y polimorfismo
+- Clases abstractas e interfaces
+- Patrones de diseño con clases
 
 ---
 
-**Tiempo estimado de estudio**: 60-75 minutos
+**Tiempo estimado de estudio**: 75-90 minutos
 **Ejercicios**: Revisa la carpeta `ejercicios/` para practicar con funciones tipadas
+**Dificultad**: Intermedia-Avanzada
