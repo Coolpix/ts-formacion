@@ -2,7 +2,7 @@
 
 ## Introducción
 
-TypeScript proporciona un sistema de tipos rico y expresivo que nos permite describir la forma de los datos en nuestro código. Este sistema de tipos es la base fundamental de TypeScript y nos ayuda a:
+TypeScript proporciona un sistema de tipos que nos permite describir la forma de los datos en nuestro código. Este sistema de tipos es la base fundamental de TypeScript y nos ayuda a:
 
 - **Detectar errores** antes de que lleguen a producción
 - **Documentar el código** de forma automática

@@ -25,7 +25,7 @@ console.log(saludar("Juan")); // ✅ Correcto
 // console.log(saludar(123)); // ❌ Error: Argument of type 'number' is not assignable to parameter of type 'string'
 
 // Ejemplo de objeto con tipos:
-interface Persona {
+type Persona = {
     nombre: string;
     edad: number;
     activo: boolean;

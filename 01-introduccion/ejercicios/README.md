@@ -45,12 +45,6 @@ Configurar un proyecto TypeScript básico y compilar tu primer archivo.
 
 6. **Verifica** que se haya creado la carpeta `dist` con el archivo JavaScript compilado
 
-### Criterios de Evaluación
-- ✅ El archivo `tsconfig.json` está correctamente configurado
-- ✅ El código TypeScript compila sin errores
-- ✅ Se genera correctamente el archivo JavaScript en la carpeta `dist`
-- ✅ El código incluye todos los elementos solicitados
-
 ---
 
 ## Ejercicio 2: Detección de Errores
@@ -76,11 +70,6 @@ Experimentar con la detección de errores de TypeScript.
 4. **Observa los errores** que TypeScript reporta
 
 5. **Corrige los errores** uno por uno y vuelve a compilar
-
-### Criterios de Evaluación
-- ✅ TypeScript detecta correctamente los errores de tipo
-- ✅ Los errores se corrigen apropiadamente
-- ✅ El código final compila sin errores
 
 ---
 
@@ -114,21 +103,4 @@ Crear el mismo código en JavaScript y TypeScript para ver las diferencias.
    - Pasa un string en lugar de number a la función
    - Usa una variable no declarada
 
-### Criterios de Evaluación
-- ✅ El código TypeScript tiene tipos apropiados
-- ✅ Se observan las diferencias en detección de errores
-- ✅ Se entiende la ventaja del tipado estático
-
 ---
-
-## Preguntas de Reflexión
-
-1. ¿Qué ventajas has observado de TypeScript sobre JavaScript?
-2. ¿Cómo te ayuda el tipado estático a escribir mejor código?
-3. ¿Qué opción de configuración de `tsconfig.json` te parece más importante?
-4. ¿Cómo crees que TypeScript puede ayudar en un proyecto de equipo?
-
----
-
-**Tiempo estimado**: 45-60 minutos
-**Dificultad**: Básica

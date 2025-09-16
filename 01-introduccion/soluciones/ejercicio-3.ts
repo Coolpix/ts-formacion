@@ -31,7 +31,7 @@ function calcularTotalSeguro(precio: number, cantidad: number, descuento: number
 }
 
 // Ejemplo de uso con diferentes tipos de datos:
-interface Producto {
+type Producto = {
     nombre: string;
     precio: number;
     stock: number;
@@ -75,7 +75,7 @@ let productos: Producto[] = [
     { nombre: "Monitor", precio: 299.99, stock: 3 }
 ];
 
-let pedido = procesarPedido(productos, 0.1); // 10% de descuento
+let pedido = procesarPedido(productos, 0.1);
 console.log(`Pedido procesado: ${pedido.productos} productos, total: $${pedido.total.toFixed(2)}`);
 
 // Ventajas observadas:
