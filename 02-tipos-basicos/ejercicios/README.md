@@ -198,25 +198,3 @@ Crear type aliases complejos y aprovechar la inferencia de tipos.
    - Crea objetos sin tipos explícitos
 
 6. **Compara** el código con y sin tipos explícitos para entender las ventajas.
-
-### Criterios de Evaluación
-- ✅ Los type aliases están bien definidos y son reutilizables
-- ✅ Las interfaces usan correctamente los type aliases
-- ✅ Las funciones matemáticas funcionan correctamente
-- ✅ Se aprovecha la inferencia de tipos donde es apropiado
-- ✅ El código es limpio y expresivo
-
----
-
-## Preguntas de Reflexión
-
-1. ¿Cuándo prefieres usar tipos explícitos vs. inferencia automática?
-2. ¿Cómo te ayudan los union types a hacer tu código más robusto?
-3. ¿Qué ventajas ves en usar enums vs. constantes simples?
-4. ¿Cómo los type guards mejoran la seguridad de tu código?
-5. ¿En qué situaciones usarías type aliases vs. interfaces?
-
----
-
-**Tiempo estimado**: 60-90 minutos
-**Dificultad**: Intermedia

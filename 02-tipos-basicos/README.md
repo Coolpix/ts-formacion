@@ -18,6 +18,14 @@ En este tema aprenderemos sobre los tipos básicos, cómo usarlos para hacer nue
 
 TypeScript incluye todos los tipos primitivos de JavaScript:
 
+- **boolean**: Representa valores verdadero o falso.
+- **number**: Incluye números enteros y de punto flotante, así como valores en hexadecimal, binario y octal.
+- **string**: Para cadenas de texto.
+- **null**: Representa la ausencia intencionada de valor.
+- **undefined**: Indica que una variable ha sido declarada pero aún no tiene un valor asignado.
+
+A continuación, algunos ejemplos de cómo declarar variables usando estos tipos:
+
 ```typescript
 // Boolean
 let esActivo: boolean = true;
@@ -42,11 +50,40 @@ let indefinido: undefined = undefined;
 
 ### Tipos Específicos de TypeScript
 
+**`any`**  
+Permite asignar cualquier tipo de valor a la variable y desactiva la verificación de tipos. Úsalo solo cuando sea estrictamente necesario, ya que puede causar errores difíciles de detectar.
+
+**`unknown`**  
+Representa un valor cuyo tipo no se conoce en el momento de la escritura. Es más seguro que `any` porque obliga a comprobar el tipo antes de usar el valor.
+
+**`void`**  
+Se usa en funciones que no devuelven ningún valor. Indica explícitamente que la función no retorna nada.
+
+**`never`**  
+Indica que una función nunca retorna un valor, ya sea porque lanza una excepción o porque entra en un bucle infinito.
+
 ```typescript
 // Any - Evita la verificación de tipos (usar con precaución)
 let variableCualquiera: any = 42;
 variableCualquiera = "ahora es string";
 variableCualquiera = true;
+
+
+// Unknown - Tipo seguro para valores desconocidos
+let valorDesconocido: unknown = "Hola";
+valorDesconocido = 42;
+valorDesconocido = true;
+
+// No se puede acceder a propiedades ni métodos sin comprobación de tipo
+if (typeof valorDesconocido === "string") {
+    // Ahora TypeScript sabe que es string
+    console.log(valorDesconocido.toUpperCase());
+}
+
+if (typeof valorDesconocido === "string") {
+    // Ahora TypeScript sabe que es string
+    console.log(valorDesconocido.toUpperCase());
+}
 
 // Void - Para funciones que no devuelven nada
 function mostrarMensaje(): void {
@@ -176,7 +213,23 @@ let procesador: ((x: number) => number) | ((x: string) => string);
 
 Los type guards nos ayudan a verificar el tipo en tiempo de ejecución:
 
+Los **type guards** son técnicas en TypeScript que nos permiten refinar el tipo de una variable dentro de un bloque de código, basándonos en verificaciones en tiempo de ejecución. Esto ayuda a que el compilador entienda exactamente qué tipo tiene una variable en cada rama de nuestro código, mejorando la seguridad y evitando errores.
+
+#### Uso de `typeof`
+
+El operador `typeof` es útil para comprobar tipos primitivos como `string`, `number`, `boolean`, etc. Por ejemplo:
+
 ```typescript
+function imprimir(valor: string | number) {
+    if (typeof valor === "string") {
+        // Aquí TypeScript sabe que valor es string
+        console.log(valor.toUpperCase());
+    } else {
+        // Aquí TypeScript sabe que valor es number
+        console.log(valor.toFixed(2));
+    }
+}
+
 function esString(valor: string | number): valor is string {
     return typeof valor === "string";
 }
@@ -203,6 +256,45 @@ function mostrarTipo(valor: string | number | boolean): void {
 }
 ```
 
+#### Uso de `keyof`
+
+El operador `keyof` en TypeScript permite obtener un tipo que representa todas las claves (propiedades) de un objeto como un conjunto de strings o números. Es útil para crear funciones genéricas y trabajar con propiedades de objetos de forma segura.
+
+### Ejemplo básico
+
+```typescript
+type Persona = {
+    nombre: string;
+    edad: number;
+    activo: boolean;
+};
+
+// keyof Persona es equivalente a: "nombre" | "edad" | "activo"
+type ClavesPersona = keyof Persona;
+
+let clave: ClavesPersona;
+clave = "nombre"; // válido
+clave = "edad";   // válido
+// clave = "direccion"; // Error: "direccion" no es una clave de Persona
+```
+
+### Uso en funciones genéricas
+
+Puedes usar `keyof` para crear funciones que solo acepten claves válidas de un objeto:
+
+```typescript
+function obtenerPropiedad<T, K extends keyof T>(obj: T, clave: K): T[K] {
+    return obj[clave];
+}
+
+const persona: Persona = { nombre: "Ana", edad: 28, activo: true };
+
+const nombre = obtenerPropiedad(persona, "nombre"); // string
+const edad = obtenerPropiedad(persona, "edad");     // number
+```
+
+Esto garantiza que solo se puedan pasar claves existentes del tipo, evitando errores en tiempo de compilación.
+
 ## Literal Types
 
 Los literal types permiten especificar valores exactos:
@@ -221,6 +313,17 @@ let estado: true | false = true;
 function configurarColor(color: "rojo" | "verde" | "azul"): void {
     console.log(`Color configurado: ${color}`);
 }
+```
+
+## Union de Literal Types
+
+Podemos crear tipos que provengan de unión de distintos Literal Types
+
+```typescript
+type Prefix = '91' | '92' | '93'
+type Sufix = '001' | '002' | '003'
+
+type PrefixSufix = ${PRefix}-${Sufix}
 ```
 
 ## Type Aliases
@@ -523,18 +626,99 @@ function procesar(valor: string | number) {
 }
 ```
 
-## Próximos Pasos
+## Utility Types de TypeScript
 
-En el siguiente tema aprenderemos sobre interfaces y tipos personalizados, que nos permitirán definir estructuras de datos más complejas y reutilizables. Cubriremos:
+TypeScript incluye varios tipos utilitarios (utility types) que permiten transformar y manipular tipos de manera sencilla y poderosa. Los más usados son:
 
-- Definición de interfaces
-- Propiedades opcionales y de solo lectura
-- Herencia de interfaces
-- Diferencias entre interfaces y type aliases
-- Interfaces para funciones y clases
+### Partial<T>
 
----
+Convierte todas las propiedades de un tipo en opcionales.
 
-**Tiempo estimado de estudio**: 60-75 minutos
-**Ejercicios**: Revisa la carpeta `ejercicios/` para practicar con tipos básicos
-**Dificultad**: Intermedia
+```typescript
+type Usuario = {
+    id: number;
+    nombre: string;
+    email: string;
+};
+
+type UsuarioParcial = Partial<Usuario>;
+// Equivalente a:
+// {
+//   id?: number;
+//   nombre?: string;
+//   email?: string;
+// }
+
+let usuario: UsuarioParcial = { nombre: "Ana" };
+```
+
+### Required<T>
+
+Convierte todas las propiedades de un tipo en obligatorias.
+
+```typescript
+type ConfiguracionOpcional = {
+    host?: string;
+    puerto?: number;
+};
+
+type ConfiguracionRequerida = Required<ConfiguracionOpcional>;
+// {
+//   host: string;
+//   puerto: number;
+// }
+```
+
+### Omit<T, K>
+
+Crea un tipo excluyendo una o varias propiedades.
+
+```typescript
+type Usuario = {
+    id: number;
+    nombre: string;
+    email: string;
+};
+
+type UsuarioSinEmail = Omit<Usuario, "email">;
+// {
+//   id: number;
+//   nombre: string;
+// }
+```
+
+### Pick<T, K>
+
+Crea un tipo seleccionando solo algunas propiedades.
+
+```typescript
+type Usuario = {
+    id: number;
+    nombre: string;
+    email: string;
+};
+
+type UsuarioBasico = Pick<Usuario, "id" | "nombre">;
+// {
+//   id: number;
+//   nombre: string;
+// }
+```
+
+### Awaited<T>
+
+Extrae el tipo de valor que resuelve una promesa.
+
+```typescript
+type PromesaUsuario = Promise<Usuario>;
+
+type UsuarioResuelto = Awaited<PromesaUsuario>;
+// Usuario
+
+async function obtenerUsuario(): Promise<Usuario> {
+    // ...código...
+}
+
+type TipoUsuario = Awaited<ReturnType<typeof obtenerUsuario>>;
+// Usuario
+```

@@ -53,6 +53,27 @@ function errorInfinito(): never {
 // Comentado para evitar que termine el programa
 // errorInfinito();
 
+// Ejemplo de uso de unknown
+
+let valorDesconocido: unknown = "Hola mundo";
+console.log("Unknown válido:", valorDesconocido);
+
+// Uso válido: hay que comprobar el tipo antes de usarlo
+if (typeof valorDesconocido === "string") {
+    console.log("Longitud del string:", valorDesconocido.length);
+}
+
+//console.log("Unknown como boolean:", (valorDesconocido as string).length);
+// Uso inválido: acceso directo sin comprobación de tipo (causa error de compilación)
+// console.log(valorDesconocido.length); // Error: Object is of type 'unknown'
+
+//uso de as para manejar unknown
+const jsonParserUnknown = (jsonString: string): unknown => JSON.parse(jsonString);
+
+type User = { name: string };
+const myUserAccount = jsonParserUnknown(`{ "name": "Samuel" }`) as User;
+console.log("Usuario parseado con unknown:", myUserAccount.name);
+
 // 3. Arrays
 console.log("\n=== ARRAYS ===");
 
@@ -172,6 +193,12 @@ console.log("Tamaño:", tamaño);
 // Boolean literal types
 let estadoLiteral: true | false = true;
 console.log("Estado literal:", estadoLiteral);
+
+console.log("\n=== UNION LITERAL TYPES ===");
+type Prefix = '91' | '92' | '93'
+type Sufix = '001' | '002' | '003'
+
+type PrefixSufix = `${Prefix}-${Sufix}`
 
 // 8. Type Aliases
 console.log("\n=== TYPE ALIASES ===");
