@@ -72,89 +72,11 @@ El archivo `tsconfig.json` permite configurar cómo TypeScript compila tu códig
 - **`noImplicitAny`**: Error si hay tipos `any` implícitos
 - **`esModuleInterop`**: Mejor interoperabilidad con módulos CommonJS
 
-## Extensiones Imprescindibles para VSCode
+## Extension imprescindible para VSCode
 
-### 1. TypeScript Importer
-- **ID**: `pmneo.tsimporter`
-- **Descripción**: Importa automáticamente módulos TypeScript
-- **Uso**: Al escribir el nombre de una función/clase, importa automáticamente
+### 1. Pretty Typescript Errors
+- **Descripción**: Mejora la lectura de los errores de Typescript
 
-### 2. Auto Rename Tag
-- **ID**: `formulahendry.auto-rename-tag`
-- **Descripción**: Renombra automáticamente etiquetas HTML/JSX
-- **Uso**: Útil para React con TypeScript
-
-### 3. Bracket Pair Colorizer 2
-- **ID**: `CoenraadS.bracket-pair-colorizer-2`
-- **Descripción**: Colorea los pares de llaves para mejor legibilidad
-- **Uso**: Ayuda a identificar bloques de código
-
-### 4. ES7+ React/Redux/React-Native snippets
-- **ID**: `dsznajder.es7-react-js-snippets`
-- **Descripción**: Snippets para React con TypeScript
-- **Uso**: Atajos para componentes, hooks, etc.
-
-### 5. GitLens
-- **ID**: `eamodio.gitlens`
-- **Descripción**: Información de Git integrada
-- **Uso**: Ver historial, autores, etc.
-
-### 6. Prettier - Code formatter
-- **ID**: `esbenp.prettier-vscode`
-- **Descripción**: Formateador de código
-- **Uso**: Formatea automáticamente el código TypeScript
-
-### 7. ESLint
-- **ID**: `dbaeumer.vscode-eslint`
-- **Descripción**: Linter para JavaScript/TypeScript
-- **Uso**: Detecta errores y problemas de estilo
-
-### 8. TypeScript Hero
-- **ID**: `rbbit.typescript-hero`
-- **Descripción**: Herramientas avanzadas para TypeScript
-- **Uso**: Organización de imports, refactoring, etc.
-
-### 9. Path Intellisense
-- **ID**: `christian-kohler.path-intellisense`
-- **Descripción**: Autocompletado para rutas de archivos
-- **Uso**: Importar archivos con autocompletado
-
-### 10. Error Lens
-- **ID**: `usernamehw.errorlens`
-- **Descripción**: Muestra errores inline
-- **Uso**: Ve errores de TypeScript directamente en el código
-
-## Configuración recomendada de VSCode
-
-### settings.json
-```json
-{
-  "typescript.preferences.importModuleSpecifier": "relative",
-  "typescript.suggest.autoImports": true,
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.organizeImports": true
-  },
-  "typescript.preferences.includePackageJsonAutoImports": "auto",
-  "typescript.suggest.completeFunctionCalls": true
-}
-```
-
-### keybindings.json
-```json
-[
-  {
-    "key": "ctrl+shift+i",
-    "command": "editor.action.organizeImports"
-  },
-  {
-    "key": "ctrl+shift+f",
-    "command": "editor.action.formatDocument"
-  }
-]
-```
 
 ## Diferencias clave con JavaScript
 

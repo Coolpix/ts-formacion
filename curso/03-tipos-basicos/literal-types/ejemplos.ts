@@ -6,18 +6,18 @@
 // ========================================
 
 // String Literals
-let color: "rojo" = "rojo";
+let color2: "rojo" = "rojo";
 // color = "azul"; // ❌ Error: no es "rojo"
 
 // Variable que puede ser uno de varios valores
-let estado: "pendiente" | "procesando" | "completado" = "pendiente";
+let estado2: "pendiente" | "procesando" | "completado" = "pendiente";
 
 // Number Literals
 let numero: 42 = 42;
 // numero = 43; // ❌ Error: no es 42
 
 // Variable que puede ser uno de varios números
-let codigo: 200 | 404 | 500 = 200;
+let codigo2: 200 | 404 | 500 = 200;
 
 // Boolean Literals
 let activo: true = true;
@@ -27,10 +27,10 @@ let activo: true = true;
 let visible: true | false = true;
 
 console.log("=== TIPOS LITERALES BÁSICOS ===");
-console.log("Color:", color);
-console.log("Estado:", estado);
+console.log("Color:", color2);
+console.log("Estado:", estado2);
 console.log("Número:", numero);
-console.log("Código:", codigo);
+console.log("Código:", codigo2);
 console.log("Activo:", activo);
 console.log("Visible:", visible);
 
