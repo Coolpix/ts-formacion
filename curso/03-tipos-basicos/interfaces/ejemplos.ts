@@ -5,7 +5,7 @@
 // 1. INTERFACES BÁSICAS
 // ========================================
 
-interface Usuario {
+interface Usuario2 {
     id: number;
     nombre: string;
     email: string;
@@ -13,7 +13,7 @@ interface Usuario {
 }
 
 // Uso de la interfaz
-let usuario: Usuario = {
+let usuario: Usuario2 = {
     id: 1,
     nombre: "Juan",
     email: "juan@email.com",
@@ -243,7 +243,7 @@ interface Contenedor<T> {
     establecerValor(valor: T): void;
 }
 
-interface Comparador<T> {
+interface ComparadorClase<T> {
     comparar(a: T, b: T): number;
 }
 
@@ -260,7 +260,7 @@ class Caja<T> implements Contenedor<T> {
     }
 }
 
-class ComparadorNumeros implements Comparador<number> {
+class ComparadorNumeros implements ComparadorClase<number> {
     comparar(a: number, b: number): number {
         return a - b;
     }
@@ -395,12 +395,12 @@ class Pajaro implements Volador {
 }
 
 console.log("\n=== INTERFACES EN CLASES ===");
-let pato = new Pato();
-let pajaro = new Pajaro();
+let pato2 = new Pato();
+let pajaro2 = new Pajaro();
 
-pato.volar();
-pato.nadar();
-pajaro.volar();
+pato2.volar();
+pato2.nadar();
+pajaro2.volar();
 
 // 13. INTERFACES PARA APIs
 // ========================================

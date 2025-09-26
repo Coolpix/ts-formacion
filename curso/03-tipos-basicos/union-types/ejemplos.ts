@@ -338,7 +338,7 @@ simularFetchData().then(response => {
     if (response.success) {
         console.log("API Response éxito:", response.data);
     } else {
-        console.log("API Response error:", response.error);
+        console.log("API Response error:", (response as { success: false; error: string }).error);
     }
 });
 

@@ -175,7 +175,7 @@ console.log("Estado después de cambiar:", estado.obtenerEstado());
 // ========================================
 
 // Enum con string literals
-enum Color {
+enum Color2 {
     Rojo = "rojo",
     Verde = "verde",
     Azul = "azul"
@@ -189,12 +189,12 @@ enum Codigo {
 }
 
 // Uso
-let color: Color = Color.Rojo;
-let codigo: Codigo = Codigo.Exito;
+let color3: Color = Color2.Rojo;
+let codigo3: Codigo = Codigo.Exito;
 
 console.log("\n=== LITERAL TYPES EN ENUMS ===");
-console.log("Color enum:", color);
-console.log("Código enum:", codigo);
+console.log("Color enum:", color3);
+console.log("Código enum:", codigo3);
 
 // 9. LITERAL TYPES CON GENERICS
 // ========================================
@@ -264,7 +264,7 @@ simularFetchData().then(resultado => {
     if (resultado.success) {
         console.log("API Response éxito:", resultado.data);
     } else {
-        console.log("API Response error:", resultado.error, "Código:", resultado.code);
+        console.log("API Response error:", (resultado as ApiError).error, "Código:", (resultado as ApiError).code);
     }
 });
 
@@ -312,7 +312,7 @@ console.log("Campo edad:", campoEdad);
 type TipoEvento = "usuario_creado" | "usuario_actualizado" | "usuario_eliminado";
 type NivelEvento = "info" | "warning" | "error" | "success";
 
-interface Evento {
+interface Evento2 {
     tipo: TipoEvento;
     nivel: NivelEvento;
     timestamp: Date;
@@ -320,11 +320,11 @@ interface Evento {
 }
 
 // Función para crear eventos
-function crearEvento(
+function crearEvento2(
     tipo: TipoEvento,
     nivel: NivelEvento,
     datos: any
-): Evento {
+): Evento2 {
     return {
         tipo,
         nivel,
@@ -334,10 +334,10 @@ function crearEvento(
 }
 
 // Uso
-let evento = crearEvento("usuario_creado", "info", { id: 1, nombre: "Juan" });
+let evento3 = crearEvento2("usuario_creado", "info", { id: 1, nombre: "Juan" });
 
 console.log("\n=== LITERAL TYPES EN EVENTOS ===");
-console.log("Evento creado:", evento);
+console.log("Evento creado:", evento3);
 
 // 13. LITERAL TYPES EN CONFIGURACIÓN
 // ========================================
@@ -347,7 +347,7 @@ type Entorno = "desarrollo" | "produccion" | "testing";
 type NivelLog = "debug" | "info" | "warn" | "error";
 type TipoBaseDatos = "mysql" | "postgresql" | "mongodb";
 
-interface Configuracion {
+interface Configuracion2 {
     entorno: Entorno;
     nivelLog: NivelLog;
     baseDatos: {
@@ -359,7 +359,7 @@ interface Configuracion {
 }
 
 // Función para validar configuración
-function validarConfiguracion(config: any): config is Configuracion {
+function validarConfiguracion(config: any): config is Configuracion2 {
     return (
         config &&
         typeof config.entorno === 'string' &&
@@ -369,7 +369,7 @@ function validarConfiguracion(config: any): config is Configuracion {
     );
 }
 
-let config: Configuracion = {
+let config2: Configuracion2 = {
     entorno: "desarrollo",
     nivelLog: "debug",
     baseDatos: {
@@ -381,8 +381,8 @@ let config: Configuracion = {
 };
 
 console.log("\n=== LITERAL TYPES EN CONFIGURACIÓN ===");
-console.log("Configuración:", config);
-console.log("¿Configuración válida?", validarConfiguracion(config));
+console.log("Configuración:", config2);
+console.log("¿Configuración válida?", validarConfiguracion(config2));
 
 // 14. SISTEMA DE NOTIFICACIONES
 // ========================================

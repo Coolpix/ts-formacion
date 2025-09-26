@@ -90,17 +90,17 @@ console.log("¿5 es positivo?", esPositivo);
 // ========================================
 
 // Union type
-let valor: string | number = "123";
+let valor4: string | number = "123";
 
 // Assertion a string
-let longitud: number = (valor as string).length;
+let longitud4: number = (valor as string).length;
 
 // Assertion a number
 let numero: number = (valor as number) + 10;
 
 console.log("\n=== TYPE ASSERTIONS CON UNION TYPES ===");
-console.log("Valor original:", valor);
-console.log("Longitud (como string):", longitud);
+console.log("Valor original:", valor4);
+console.log("Longitud (como string):", longitud4);
 console.log("Número + 10 (como number):", numero);
 
 // 6. TYPE ASSERTIONS CON GENERICS
@@ -132,14 +132,14 @@ interface Usuario {
 }
 
 // Datos sin tipo
-let datos: any = {
+let datos2: any = {
     id: 1,
     nombre: "Juan",
     email: "juan@email.com"
 };
 
 // Con type assertion
-let usuario: Usuario = datos as Usuario;
+let usuario: Usuario = datos2 as Usuario;
 console.log("\n=== TYPE ASSERTIONS CON INTERFACES ===");
 console.log("Usuario:", usuario);
 console.log("Nombre del usuario:", usuario.nombre);
@@ -151,15 +151,15 @@ console.log("Nombre del usuario:", usuario.nombre);
 let array: any[] = [1, 2, 3, 4, 5];
 
 // Con type assertion
-let numeros: number[] = array as number[];
-let suma: number = numeros.reduce((a, b) => a + b, 0);
+let numeros2: number[] = array as number[];
+let suma: number = numeros2.reduce((a, b) => a + b, 0);
 
 // O más específico
 let numerosEspecificos: [number, number, number] = array as [number, number, number];
 
 console.log("\n=== TYPE ASSERTIONS CON ARRAYS ===");
 console.log("Array original:", array);
-console.log("Números:", numeros);
+console.log("Números:", numeros2);
 console.log("Suma:", suma);
 console.log("Números específicos:", numerosEspecificos);
 
@@ -171,10 +171,10 @@ let funcion: any = (a: number, b: number) => a + b;
 
 // Con type assertion
 let sumar: (a: number, b: number) => number = funcion as (a: number, b: number) => number;
-let resultado: number = sumar(5, 3);
+let resultado3: number = sumar(5, 3);
 
 console.log("\n=== TYPE ASSERTIONS CON FUNCIONES ===");
-console.log("Resultado de sumar:", resultado);
+console.log("Resultado de sumar:", resultado3);
 
 // 10. TYPE ASSERTIONS CON CLASES
 // ========================================
@@ -194,37 +194,37 @@ let objeto: any = {
 };
 
 // Con type assertion
-let usuario: Usuario = objeto as Usuario;
+let usuario2: Usuario = objeto as Usuario;
 console.log("\n=== TYPE ASSERTIONS CON CLASES ===");
-console.log("Usuario:", usuario);
-console.log("Nombre:", usuario.nombre);
+console.log("Usuario:", usuario2);
+console.log("Nombre:", usuario2.nombre);
 // usuario.obtenerInfo(); // ❌ Error en runtime: no tiene el método
 
 // 11. TYPE ASSERTIONS CON UNKNOWN
 // ========================================
 
 // unknown es más seguro que any
-let valor: unknown = "Hola mundo";
+let valor3: unknown = "Hola mundo";
 
 // Con type assertion
-let texto: string = valor as string;
-let longitud: number = texto.length;
+let texto: string = valor3 as string;
+let longitud3: number = texto.length;
 
 // O con verificación previa
-if (typeof valor === 'string') {
-    let longitudSegura: number = valor.length; // ✅ Seguro
+if (typeof valor3 === 'string') {
+    let longitudSegura: number = valor3.length; // ✅ Seguro
     console.log("Longitud segura:", longitudSegura);
 }
 
 console.log("\n=== TYPE ASSERTIONS CON UNKNOWN ===");
 console.log("Texto:", texto);
-console.log("Longitud:", longitud);
+console.log("Longitud:", longitud3);
 
 // 12. TYPE ASSERTIONS CON CONST
 // ========================================
 
 // Const assertion
-let config = {
+let config2 = {
     servidor: "localhost",
     puerto: 3000
 } as const;
@@ -233,7 +233,7 @@ let config = {
 // config.servidor = "otro"; // ❌ Error
 
 // O con type assertion
-let config2 = {
+let config3 = {
     servidor: "localhost",
     puerto: 3000
 } as {
@@ -242,8 +242,8 @@ let config2 = {
 };
 
 console.log("\n=== TYPE ASSERTIONS CON CONST ===");
-console.log("Config:", config);
-console.log("Config2:", config2);
+console.log("Config:", config2);
+console.log("Config2:", config3);
 
 // 13. TYPE ASSERTIONS CON NEVER
 // ========================================
@@ -269,10 +269,10 @@ function mostrarMensaje(): void {
 }
 
 // Con type assertion
-let resultado: void = mostrarMensaje() as void;
+let resultado2: void = mostrarMensaje() as void;
 
 console.log("\n=== TYPE ASSERTIONS CON VOID ===");
-console.log("Resultado void:", resultado);
+console.log("Resultado void:", resultado2);
 
 // 15. CASOS DE USO ESPECÍFICOS
 // ========================================

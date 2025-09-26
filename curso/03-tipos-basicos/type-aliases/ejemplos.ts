@@ -6,12 +6,12 @@
 // ========================================
 
 // Alias para tipos primitivos
-type ID = string;
+type IDs = string;
 type Edad = number;
 type Activo = boolean;
 
 // Uso de los aliases
-let usuarioId: ID = "user123";
+let usuarioId: IDs = "user123";
 let edadUsuario: Edad = 25;
 let usuarioActivo: Activo = true;
 
@@ -161,56 +161,7 @@ console.log("Strings:", strings);
 console.log("Genérico:", generico);
 console.log("Generador(5):", generador(5));
 
-// 7. ALIASES PARA TIPOS DE API
-// ========================================
-
-// Alias para respuesta de API
-type ApiResponse<T> = {
-    success: boolean;
-    data: T;
-    message?: string;
-    timestamp: Date;
-};
-
-// Alias para error de API
-type ApiError = {
-    success: false;
-    error: string;
-    code: number;
-    timestamp: Date;
-};
-
-// Alias para resultado de operación
-type ResultadoOperacion<T> = ApiResponse<T> | ApiError;
-
-// Función para procesar respuesta
-function procesarRespuesta<T>(respuesta: ResultadoOperacion<T>): string {
-    if (respuesta.success) {
-        return `Éxito: ${JSON.stringify(respuesta.data)}`;
-    } else {
-        return `Error ${respuesta.code}: ${respuesta.error}`;
-    }
-}
-
-console.log("\n=== ALIASES PARA TIPOS DE API ===");
-let respuestaExito: ApiResponse<{ usuarios: string[] }> = {
-    success: true,
-    data: { usuarios: ["Ana", "Luis"] },
-    message: "Usuarios obtenidos",
-    timestamp: new Date()
-};
-
-let respuestaError: ApiError = {
-    success: false,
-    error: "No se pudo conectar",
-    code: 500,
-    timestamp: new Date()
-};
-
-console.log("Respuesta éxito:", procesarRespuesta(respuestaExito));
-console.log("Respuesta error:", procesarRespuesta(respuestaError));
-
-// 8. ALIASES PARA TIPOS DE CONFIGURACIÓN
+// 7. ALIASES PARA TIPOS DE CONFIGURACIÓN
 // ========================================
 
 // Alias para configuración de base de datos
@@ -366,7 +317,7 @@ console.log("Usuario requerido:", usuarioRequerido);
 
 // Alias para validadores
 type Validador<T> = (valor: T) => boolean;
-type Transformador<T, U> = (valor: T) => U;
+type Transformador2<T, U> = (valor: T) => U;
 
 // Alias para reglas de validación
 type ReglaValidacion<T> = {
@@ -379,7 +330,7 @@ type ReglaValidacion<T> = {
 let validadorEmail: Validador<string> = (email) => 
     email.includes("@") && email.includes(".");
 
-let transformadorMayusculas: Transformador<string, string> = (texto) => 
+let transformadorMayusculas: Transformador2<string, string> = (texto) => 
     texto.toUpperCase();
 
 let reglaEmail: ReglaValidacion<UsuarioBase> = {

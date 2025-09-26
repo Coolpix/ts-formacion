@@ -6,7 +6,7 @@
 // ========================================
 
 // Arrays con tipos específicos
-let numeros: number[] = [1, 2, 3, 4, 5];
+let numeros2: number[] = [1, 2, 3, 4, 5];
 let nombres: string[] = ["Ana", "Luis", "María", "Pedro"];
 let activos: boolean[] = [true, false, true, false];
 
@@ -15,7 +15,7 @@ let colores: Array<string> = ["rojo", "verde", "azul", "amarillo"];
 let temperaturas: Array<number> = [20, 25, 30, 15, 22];
 
 console.log("=== DECLARACIÓN BÁSICA ===");
-console.log("Números:", numeros);
+console.log("Números:", numeros2);
 console.log("Nombres:", nombres);
 console.log("Activos:", activos);
 console.log("Colores:", colores);
@@ -107,7 +107,7 @@ let configuracionCompleta: [string, number?] = ["servidor", 3000];
 
 // Tupla con elementos rest
 let numeros: [string, ...number[]] = ["suma", 1, 2, 3, 4, 5];
-let datos: [string, string, ...number[]] = ["usuario", "admin", 1, 2, 3];
+let datos2: [string, string, ...number[]] = ["usuario", "admin", 1, 2, 3];
 
 console.log("\n=== TUPLAS ===");
 console.log("Coordenada:", coordenada);
@@ -116,7 +116,7 @@ console.log("Persona:", persona);
 console.log("Configuración opcional:", configuracionOpcional);
 console.log("Configuración completa:", configuracionCompleta);
 console.log("Números:", numeros);
-console.log("Datos:", datos);
+console.log("Datos:", datos2);
 
 // 7. MÉTODOS BÁSICOS DE ARRAY
 // ========================================
@@ -133,8 +133,8 @@ console.log("Último elemento:", ultimo);
 console.log("Después de pop:", numerosArray);
 
 // shift - eliminar del inicio
-let primero = numerosArray.shift();
-console.log("Primer elemento:", primero);
+let primero3 = numerosArray.shift();
+console.log("Primer elemento:", primero3);
 console.log("Después de shift:", numerosArray);
 
 // unshift - añadir al inicio
